@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>单点登录</title>
+</head>
+
+<body>
+  <form id="form" style="margin: 150px auto; width: 220px" method="POST" action="/login">
+    <div>
+      <label>用户名：</label>
+      <input id="username" name="username" placeholder="用户名" />
+    </div>
+    <div style="margin: 15px 0">
+      <label>密 &nbsp; 码：</label>
+      <input id="password" name="password" type="password" placeholder="密码" />
+    </div>
+    <div style="text-align: center">
+      <button id="btn">登陆</button>
+    </div>
+  </form>
+</body>
+<script>
+  const search = window.location.search;
+  const form = document.getElementById('form');
+  form.action = `/login${search}`
+</script>
+<!-- <script>
+  const btn = document.getElementById('btn');
+  btn.onclick = () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const data = { username, password };
+    const search = window.location.search;
+    fetch(`/login${search}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      redirect: 'follow'
+    }).then((res) => {
+      window.location.href = res.url;
+    }).catch((err) => {
+      console.log('error:', err.message);
+    })
+  };
+</script> -->
+</html>

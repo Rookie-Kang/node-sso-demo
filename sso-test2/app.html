@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>sso-demo2</title>
+</head>
+<body>
+  <div>
+    <h1>sso-demo2</h1>
+    <button onclick="loginOut()">注销登录</button>
+  </div>
+  <script>
+    const loginOut = () => {
+      location.href = `http://192.168.31.140:8888/logout?redirectUrl=${window.location.href}`;
+    }
+  </script>
+</body>
+</html>

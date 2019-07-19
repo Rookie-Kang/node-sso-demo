@@ -1,0 +1,24 @@
+{
+  "name": "sso",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=development ./node_modules/.bin/nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ioredis": "^4.11.2",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-session2": "^2.2.10",
+    "koa2-cors": "^2.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
