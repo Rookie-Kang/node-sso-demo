@@ -45,3 +45,11 @@
 用于验证单点登录，也是CAS的服务对象。通过请求与CAS系统的约定后的API，来实现登录、验证/获取用户信息、注销的需求。
 
 流程图中的验证URl，主要是用来将jwt设置到应用系统的cookies里面，使得之后访问应用系统时都能在cookie里面拿到jwt
+
+启动：
+
+```text
+> $ cd sso-test1
+> $ npm install
+> $ npm start
+```
