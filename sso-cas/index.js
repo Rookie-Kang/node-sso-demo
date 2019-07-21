@@ -4,15 +4,19 @@ const session = require('koa-session2');
 const Router = require('koa-router');
 const bodyparser = require('koa-bodyparser');
 const TokenGenerator = require('./token-generator');
-const acctService = require('./service/acctService');
-const Store = require('./redisStore');
 const cors = require('koa2-cors');
+
+const help = require('./help');
+const config = require('./config');
+const Store = require('./redisStore');
+const acctService = require('./service/acctService');
 
 const app = new Koa();
 const router = new Router();
 const store = new Store();
+const { handleDomain } = help;
+const { url, port } = config;
 
-const PORT = 8888;
 const secretOrPrivateKey = 'service-sso';
 const secretOrPublicKey = 'service-sso';
 const options = {
@@ -61,12 +65,14 @@ router.get('/login-page', async (ctx, next) => {
   } else {
     const userData = await store.get(sid) || {};
     console.log('userData', userData);
+    const { redirectUrl } = ctx.query;
+    const redirectUrlDomain = handleDomain(redirectUrl);
     if (Object.keys(userData).length === 0) {
       ctx.session = null;
-      ctx.redirect(`http://192.168.31.140:8888/login-page${ctx.search}`);
+      ctx.redirect(`${url}:${port}/login-page${ctx.search}`);
     } else {
       const token = tokenGenerator.sign({ userId: userData.userId, sid });
-      ctx.response.redirect(`http://192.168.31.156:3000/cas/attach${ctx.search}&&jwt=${token}`);
+      ctx.response.redirect(`${redirectUrlDomain}/cas/attach${ctx.search}&&jwt=${token}`);
     }
   }
 });
@@ -75,10 +81,7 @@ router.get('/login-page', async (ctx, next) => {
 router.post('/login', async (ctx, next) => {
   const { body } = ctx.request;
   const { redirectUrl } = ctx.query;
-  let redirectUrlDomain = '';
-  redirectUrl.replace(/(http|https|ftp|file):\/\/[A-z0-9\.:]+/img, (val) => {
-    redirectUrlDomain = val;
-  });
+  const redirectUrlDomain = handleDomain(redirectUrl);
   const result = acctService.verifyUser(body);
   // 校验账户信息
   if (!result) {
@@ -119,7 +122,7 @@ router.get('/validate', async (ctx, next) => {
 router.get('/logout', async (ctx, next) => {
   ctx.session = null;
   const { redirectUrl } = ctx.query;
-  ctx.response.redirect(`http://192.168.31.140:8888/login-page?redirectUrl=${redirectUrl}`);
+  ctx.response.redirect(`${url}:${port}/login-page?redirectUrl=${redirectUrl}`);
 });
 
 app
@@ -131,6 +134,6 @@ app.on('error', async (err, ctx) => {
   console.log('service error:', err.message);
 });
 
-app.listen(PORT, () => {
-  console.log(`service started! port ${PORT}`);
+app.listen(port, () => {
+  console.log(`service started! port ${port}`);
 });
