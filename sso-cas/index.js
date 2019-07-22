@@ -35,7 +35,7 @@ app.use(async (ctx, next) => {
   try {
     await next();
   } catch(err) {
-    ctx.response.status = err.statusCode || err.status || 400;
+    ctx.response.status = err.statusCode || err.status || 200;
     ctx.response.body = {
       status: 1,
       message: err.message
@@ -64,7 +64,6 @@ router.get('/login-page', async (ctx, next) => {
     ctx.body = body;
   } else {
     const userData = await store.get(sid) || {};
-    console.log('userData', userData);
     const { redirectUrl } = ctx.query;
     const redirectUrlDomain = handleDomain(redirectUrl);
     if (Object.keys(userData).length === 0) {
@@ -92,7 +91,6 @@ router.post('/login', async (ctx, next) => {
   const sid = store.setSid();
   ctx.sid = sid;
   const token = tokenGenerator.sign({ userId: result, sid });
-  console.log('redirectUrlDomain', redirectUrlDomain);
   ctx.response.redirect(`${redirectUrlDomain}/cas/attach${ctx.search}&&jwt=${token}`);
 });
 

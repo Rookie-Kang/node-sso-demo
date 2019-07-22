@@ -1,3 +1,7 @@
-exports.url = 'http://192.168.31.140';
+const globalConfig = require('../config');
+
+const { IPAdress } = globalConfig;
+
+exports.url = `http://${IPAdress}`;
 
 exports.port = 8888;

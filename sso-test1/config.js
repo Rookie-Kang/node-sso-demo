@@ -1,5 +1,8 @@
+const globalConfig = require('../config');
 
-const ssoUrl = 'http://192.168.31.140:8888';
+const { IPAdress } = globalConfig;
+
+const ssoUrl = `http://${IPAdress}:8888`;
 
 exports.ssoServer = {
   url: ssoUrl,
