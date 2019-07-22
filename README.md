@@ -4,7 +4,7 @@
 
 ## 原理流程
 
-![主流程](./images/sso.jpg)
+![主流程](./images/sso.png)
 
 ## 中心管理系统(CAS)
 
